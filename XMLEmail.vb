@@ -9,8 +9,8 @@ Public Class XMLEmail
     Private Sub SendButtonClick(sender As Object, e As EventArgs) Handles btnSend.Click
 
         Try
-            ' Declared here so that the variables would be available to multiple functions
-			Dim custAccountNumberXMLData As String = ""   
+            ' Declared here so that the variables would be available to multiple functions	
+            Dim custAccountNumberXMLData As String = ""   
             Dim custFirstNameXMLData As String = ""
             Dim custLastNameXMLData As String = ""
             Dim custAddress1XMLData As String = ""
