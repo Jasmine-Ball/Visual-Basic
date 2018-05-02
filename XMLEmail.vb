@@ -9,7 +9,8 @@ Public Class XMLEmail
     Private Sub SendButtonClick(sender As Object, e As EventArgs) Handles btnSend.Click
 
         Try
-            Dim custAccountNumberXMLData As String = ""   ' Declared here so that the variables would be available to multiple functions
+            ' Declared here so that the variables would be available to multiple functions
+			Dim custAccountNumberXMLData As String = ""   
             Dim custFirstNameXMLData As String = ""
             Dim custLastNameXMLData As String = ""
             Dim custAddress1XMLData As String = ""
@@ -35,13 +36,13 @@ Public Class XMLEmail
                 ' Parsing the XML and selecting the data based on the parameter
                 custAccountNumberXMLData = XMLParse("CustAccountNumber", count)  'I can call this for any of the XML fields
                 custFirstNameXMLData = XMLParse("CustFirstName", count)
-                custLastNameXMLData = XMLParse("CustLastName", count) ' Testing
+                custLastNameXMLData = XMLParse("CustLastName", count)
                 custAddress1XMLData = XMLParse("CustAddress1", count)
-                custAddress2XMLData = XMLParse("CustAddress2", count) ' Testing
-                custCityXMLData = XMLParse("CustCity", count) ' Testing
-                custStateXMLData = XMLParse("CustState", count) ' Testing
-                custPostCodeXMLData = XMLParse("CustPostCode", count) ' Testing
-                custCountry = XMLParse("CustCountry", count) ' Testing
+                custAddress2XMLData = XMLParse("CustAddress2", count)
+                custCityXMLData = XMLParse("CustCity", count)
+                custStateXMLData = XMLParse("CustState", count)
+                custPostCodeXMLData = XMLParse("CustPostCode", count)
+                custCountry = XMLParse("CustCountry", count)
                 count += 1
 
                 ' Regex cutomer details placement via CustomerWrite function
