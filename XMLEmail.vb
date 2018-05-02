@@ -3,6 +3,7 @@ Imports System.Xml.XPath
 Imports System.Text.RegularExpressions
 
 
+
 Public Class XMLEmail
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnSend.Click
@@ -113,8 +114,4 @@ Public Class XMLEmail
         Return HTMLWithCustomData
     End Function
 
-    ' To be used later
-    Private Sub TextBox1_TextChanged(sender As Object, e As EventArgs)
-        MessageBox.Show("TextBox1_TextChanged")
-    End Sub
 End Class
