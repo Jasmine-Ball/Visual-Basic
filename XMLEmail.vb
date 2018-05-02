@@ -6,7 +6,7 @@ Imports System.Text.RegularExpressions
 
 Public Class XMLEmail
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btnSend.Click
+    Private Sub SendButtonClick(sender As Object, e As EventArgs) Handles btnSend.Click
 
         Try
             Dim custAccountNumberXMLData As String = ""   ' Declared here so that the variables would be available to multiple functions
