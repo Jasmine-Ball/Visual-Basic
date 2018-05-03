@@ -25,7 +25,7 @@ Public Class XMLEmail
             Dim HTMLTemplateRead As String = My.Computer.FileSystem.ReadAllText("C:\cid.html") 'Reading in the HTML template as text
 
             ' Sender email credential management
-            Dim eml As String = "testjunke@gmail.com" 'This will hold the sender's email address
+            Dim eml As String = "sender@gmail.com" 'This will hold the sender's email address
             Dim pwd As String 'Senders password will need to be entered into the InputBox and sent over SSL as below
             pwd = InputBox("Enter sender password") 'Prompt to sender
 
@@ -76,9 +76,9 @@ Public Class XMLEmail
 
                 ' Setting the email properties
                 mail.Body = HTMLDataPopulated 'Custom email content based on HTML Template
-                mail.From = New MailAddress("testjunke@gmail.com")
-                mail.To.Add("jazzia82@gmail.com")
-                mail.Subject = "Welcome to bin"
+                mail.From = New MailAddress("sender@gmail.com")
+                mail.To.Add("customer@gmail.com")
+                mail.Subject = "Welcome"
                 mail.Attachments.Add(sigCEO)
                 mail.Attachments.Add(logoBin)
                 mail.IsBodyHtml = True
