@@ -9,26 +9,13 @@ Public Class XMLEmail
     Private Sub SendButtonClick(panel As Object, e As EventArgs) Handles BtnSend.Click
 
         Try
-            ' Declared here so that the variables would be available to multiple functions	
-            Dim custAccountNumberXMLData As String = ""
-            Dim custFirstNameXMLData As String = ""
-            Dim custLastNameXMLData As String = ""
-            Dim custAddress1XMLData As String = ""
-            Dim custAddress2XMLData As String = ""
-            Dim custCityXMLData As String = ""
-            Dim custStateXMLData As String = ""
-            Dim custPostCodeXMLData As String = ""
-            Dim custCountryXMLData As String = ""
-            Dim custEmailXMLData As String = ""
-            Dim HTMLDataPopulated As String = ""
-
-            ' Reading in template for Regex
-            Dim HTMLTemplateRead As String = My.Computer.FileSystem.ReadAllText("C:\CCM\Templates\binTemplate.html") 'Reading in the HTML template as text
+            ' Declared early so that the variables will be available anywhere within the Sub
+            Dim custAccountNumberXMLData, custFirstNameXMLData, custLastNameXMLData, custAddress1XMLData, custAddress2XMLData, custCityXMLData,
+            custStateXMLData, custPostCodeXMLData, custCountryXMLData, custEmailXMLData, custFundXMLData, HTMLTemplateRead, logo, sigCEO, HTMLDataPopulated
 
             ' Sender email credential management
             Dim eml As String = "testjunke@gmail.com" 'This will hold the sender's email address
-            Dim pwd As String = TbxPass.Text 'Senders password will need to be entered. Later sent over SSL
-
+            Dim pwd As String = TbxPass.Text 'Senders password as entered in input box. Later sent to Gmail over SSL
 
             ' Looping through the customers in the XML file
             Dim count As Integer = 1 ' This is used as the starting array index for the XMLParse function
@@ -44,8 +31,31 @@ Public Class XMLEmail
                 custStateXMLData = XMLParse("CustState", count)
                 custPostCodeXMLData = XMLParse("CustPostCode", count)
                 custCountryXMLData = XMLParse("CustCountry", count)
+                custFundXMLData = XMLParse("CustFund", count)
                 custEmailXMLData = XMLParse("CustEmail", count)
                 count += 1
+
+                ' Checking which fund each customer is with, based on the XML
+                If custFundXMLData Like "Fund1" Then
+                    ' Reading in template for Regex
+                    HTMLTemplateRead = My.Computer.FileSystem.ReadAllText(".\CCM\Templates\binTemplate.html") 'Reading in the HTML template as text
+
+                    ' Image embedding starts here
+                    logo = New System.Net.Mail.Attachment(".\CCM\Templates\logo_bin.PNG") 'Reading in the logo as a jpeg
+                    logo.ContentId = "logoTop"
+                    sigCEO = New System.Net.Mail.Attachment(".\CCM\Templates\sig_mfitzgerald_mc_300.jpeg") 'Reading in the CEO's Signature as a jpeg
+                    sigCEO.ContentId = "sigCEO" 'Giving the image an identifier for use in the HTML file
+
+                ElseIf custFundXMLData Like "Fund2" Then
+                    ' Reading in template for Regex
+                    HTMLTemplateRead = My.Computer.FileSystem.ReadAllText(".\CCM\Templates\badTemplate.html") 'Reading in the HTML template as text
+
+                    ' Image embedding starts here
+                    logo = New System.Net.Mail.Attachment(".\CCM\Templates\logo_bad.PNG") 'Reading in the logo as a jpeg
+                    logo.ContentId = "logoTop"
+                    sigCEO = New System.Net.Mail.Attachment(".\CCM\Templates\sig_devil.jpeg") 'Reading in the CEO's Signature as a jpeg
+                    sigCEO.ContentId = "sigCEO" 'Giving the image an identifier for use in the HTML file
+                End If
 
                 ' Regex cutomer details placement via CustomerWrite function
                 Dim HTMLWithCustAccountNumber As String = CustomerWrite("CustAccountNumber", custAccountNumberXMLData, HTMLTemplateRead)
@@ -70,19 +80,13 @@ Public Class XMLEmail
                 Smtp.EnableSsl = True 'Using SSL for security purposes
                 Smtp.Host = "smtp.gmail.com"
 
-                ' Image embedding starts here
-                Dim logoBin = New System.Net.Mail.Attachment("C:\CCM\Templates\logo_bin.PNG") 'Reading in the logo as a jpeg
-                logoBin.ContentId = "logo_bin.PNG"
-                Dim sigCEO = New System.Net.Mail.Attachment("C:\CCM\Templates\sig_mfitzgerald_mc_300.jpeg") 'Reading in the CEO's Signature as a jpeg
-                sigCEO.ContentId = "sig_mfitzgerald_mc_300.jpeg" 'Giving the image an identifier for use in the HTML file
-
                 ' Setting the email properties
                 mail.Body = HTMLDataPopulated 'Custom email content based on HTML Template
                 mail.From = New MailAddress("testjunke@gmail.com")
                 mail.To.Add(custEmailXMLData) 'Destination email address based on XML
                 mail.Subject = "Welcome, " & custFirstNameXMLData
                 mail.Attachments.Add(sigCEO)
-                mail.Attachments.Add(logoBin)
+                mail.Attachments.Add(logo)
                 mail.IsBodyHtml = True
                 Smtp.Send(mail)
                 Application.Exit() 'Closing off the application once the email has been sent
@@ -98,7 +102,7 @@ Public Class XMLEmail
     ' Parsing XML tags for each customer
     Function XMLParse(element, count) As String
         Dim regSelect = "./Customer[" & count & "]"
-        Dim document As XElement = XElement.Load("C:\CCM\Input\customerList.xml")
+        Dim document As XElement = XElement.Load(".\CCM\Input\customerList.xml")
         Dim oneElement As XElement = document.XPathSelectElement(regSelect.ToString).XPathSelectElement(element)   'Selecting the details of the customer
         Dim oneElementAsString = oneElement.ToString
         Dim oneElementAsStringRegex As Regex = New Regex("<.*?>") 'Regex filtering is being used to tidy XML tags
@@ -127,5 +131,9 @@ Public Class XMLEmail
 
     Private Sub Label1_Click(sender As Object, e As EventArgs) Handles LblPass.Click
 
+    End Sub
+
+    Private Sub BtnCancel_Click(sender As Object, e As EventArgs) Handles BtnCancel.Click
+        Application.Exit()
     End Sub
 End Class
