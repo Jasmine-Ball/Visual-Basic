@@ -3,7 +3,6 @@ Imports System.Xml.XPath
 Imports System.Text.RegularExpressions
 
 
-
 Public Class XMLEmail
 
     Private Sub SendButtonClick(panel As Object, e As EventArgs) Handles BtnSend.Click
@@ -99,7 +98,7 @@ Public Class XMLEmail
 
     End Sub
 
-    ' Parsing XML tags for each customer
+    ' Parsing XML tags for each customer and tidying with Regex
     Function XMLParse(element, count) As String
         Dim regSelect = "./Customer[" & count & "]"
         Dim document As XElement = XElement.Load(".\CCM\Input\customerList.xml")
@@ -121,19 +120,17 @@ Public Class XMLEmail
         Return HTMLWithCustomData
     End Function
 
+    ' Default empty Sub provided by Visual Studio
     Private Sub XMLEmail_Load(panel As Object, e As EventArgs) Handles MyBase.Load
-
     End Sub
 
+    ' Default empty Sub provided by Visual Studio
     Private Sub TbxPass_TextChanged(panel As Object, e As EventArgs) Handles TbxPass.TextChanged
-
     End Sub
 
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles LblPass.Click
-
-    End Sub
-
+    ' Cancel button exits the application
     Private Sub BtnCancel_Click(sender As Object, e As EventArgs) Handles BtnCancel.Click
         Application.Exit()
     End Sub
+
 End Class
