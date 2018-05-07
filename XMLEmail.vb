@@ -17,40 +17,41 @@ Public Class XMLEmail
             Dim pwd As String = TbxPass.Text 'Senders password as entered in input box. Later sent to Gmail over SSL
 
             ' Looping through the customers in the XML file
-            Dim count As Integer = 1 ' This is used as the starting array index for the XMLParse function
-            Do While count <= 6
+            Dim counter As Integer = 1 ' This is used as the starting array index for the XMLParse function
+            Do While counter <= 6
 
                 ' Parsing the XML and selecting the data based on the parameter
-                custAccountNumberXMLData = XMLParse("CustAccountNumber", count)  'I can call this for any of the XML fields
-                custFirstNameXMLData = XMLParse("CustFirstName", count)
-                custLastNameXMLData = XMLParse("CustLastName", count)
-                custAddress1XMLData = XMLParse("CustAddress1", count)
-                custAddress2XMLData = XMLParse("CustAddress2", count)
-                custCityXMLData = XMLParse("CustCity", count)
-                custStateXMLData = XMLParse("CustState", count)
-                custPostCodeXMLData = XMLParse("CustPostCode", count)
-                custCountryXMLData = XMLParse("CustCountry", count)
-                custFundXMLData = XMLParse("CustFund", count)
-                custEmailXMLData = XMLParse("CustEmail", count)
-                count += 1
+                custAccountNumberXMLData = XMLParse("CustAccountNumber", counter)  'I can call this for any of the XML fields
+                custFirstNameXMLData = XMLParse("CustFirstName", counter)
+                custLastNameXMLData = XMLParse("CustLastName", counter)
+                custAddress1XMLData = XMLParse("CustAddress1", counter)
+                custAddress2XMLData = XMLParse("CustAddress2", counter)
+                custCityXMLData = XMLParse("CustCity", counter)
+                custStateXMLData = XMLParse("CustState", counter)
+                custPostCodeXMLData = XMLParse("CustPostCode", counter)
+                custCountryXMLData = XMLParse("CustCountry", counter)
+                custFundXMLData = XMLParse("CustFund", counter)
+                custEmailXMLData = XMLParse("CustEmail", counter)
+                counter += 1
 
                 ' Checking which fund each customer is with, based on the XML
                 If custFundXMLData Like "Fund1" Then
+
                     ' Reading in template for Regex
-                    HTMLTemplateRead = My.Computer.FileSystem.ReadAllText(".\CCM\Templates\binTemplate.html") 'Reading in the HTML template as text
+                    HTMLTemplateRead = My.Computer.FileSystem.ReadAllText(".\CCM\Templates\template_binhealth.html") 'Reading in the HTML template as text
 
                     ' Image embedding starts here
-                    logo = New System.Net.Mail.Attachment(".\CCM\Templates\logo_bin.PNG") 'Reading in the logo as a jpeg
+                    logo = New System.Net.Mail.Attachment(".\CCM\Templates\logo_binhealth.PNG") 'Reading in the logo as a jpeg
                     logo.ContentId = "logoTop"
-                    sigCEO = New System.Net.Mail.Attachment(".\CCM\Templates\sig_mfitzgerald_mc_300.jpeg") 'Reading in the CEO's Signature as a jpeg
+                    sigCEO = New System.Net.Mail.Attachment(".\CCM\Templates\sig_mfitzgerald.jpeg") 'Reading in the CEO's Signature as a jpeg
                     sigCEO.ContentId = "sigCEO" 'Giving the image an identifier for use in the HTML file
 
                 ElseIf custFundXMLData Like "Fund2" Then
                     ' Reading in template for Regex
-                    HTMLTemplateRead = My.Computer.FileSystem.ReadAllText(".\CCM\Templates\badTemplate.html") 'Reading in the HTML template as text
+                    HTMLTemplateRead = My.Computer.FileSystem.ReadAllText(".\CCM\Templates\template_badhealth.html") 'Reading in the HTML template as text
 
                     ' Image embedding starts here
-                    logo = New System.Net.Mail.Attachment(".\CCM\Templates\logo_bad.PNG") 'Reading in the logo as a jpeg
+                    logo = New System.Net.Mail.Attachment(".\CCM\Templates\logo_badhealth.PNG") 'Reading in the logo as a jpeg
                     logo.ContentId = "logoTop"
                     sigCEO = New System.Net.Mail.Attachment(".\CCM\Templates\sig_devil.jpeg") 'Reading in the CEO's Signature as a jpeg
                     sigCEO.ContentId = "sigCEO" 'Giving the image an identifier for use in the HTML file
@@ -99,9 +100,9 @@ Public Class XMLEmail
     End Sub
 
     ' Parsing XML tags for each customer and tidying with Regex
-    Function XMLParse(element, count) As String
-        Dim regSelect = "./Customer[" & count & "]"
-        Dim document As XElement = XElement.Load(".\CCM\Input\customerList.xml")
+    Function XMLParse(element, counter) As String
+        Dim regSelect = "./Customer[" & counter & "]"
+        Dim document As XElement = XElement.Load(".\CCM\Input\list_customers.xml")
         Dim oneElement As XElement = document.XPathSelectElement(regSelect.ToString).XPathSelectElement(element)   'Selecting the details of the customer
         Dim oneElementAsString = oneElement.ToString
         Dim oneElementAsStringRegex As Regex = New Regex("<.*?>") 'Regex filtering is being used to tidy XML tags
