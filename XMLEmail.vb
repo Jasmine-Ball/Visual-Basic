@@ -41,7 +41,7 @@ Public Class XMLEmail
                     HTMLTemplateRead = My.Computer.FileSystem.ReadAllText(".\CCM\Templates\template_binhealth.html") 'Reading in the HTML template as text
 
                     ' Image embedding starts here
-                    logo = New System.Net.Mail.Attachment(".\CCM\Templates\logo_binhealth.PNG") 'Reading in the logo as a jpeg
+                    logo = New System.Net.Mail.Attachment(".\CCM\Templates\logo_binhealth.PNG") 'Reading in the logo as a PNG
                     logo.ContentId = "logoTop"
                     sigCEO = New System.Net.Mail.Attachment(".\CCM\Templates\sig_mfitzgerald.jpeg") 'Reading in the CEO's Signature as a jpeg
                     sigCEO.ContentId = "sigCEO" 'Giving the image an identifier for use in the HTML file
@@ -51,7 +51,7 @@ Public Class XMLEmail
                     HTMLTemplateRead = My.Computer.FileSystem.ReadAllText(".\CCM\Templates\template_badhealth.html") 'Reading in the HTML template as text
 
                     ' Image embedding starts here
-                    logo = New System.Net.Mail.Attachment(".\CCM\Templates\logo_badhealth.PNG") 'Reading in the logo as a jpeg
+                    logo = New System.Net.Mail.Attachment(".\CCM\Templates\logo_badhealth.PNG") 'Reading in the logo as a PNG
                     logo.ContentId = "logoTop"
                     sigCEO = New System.Net.Mail.Attachment(".\CCM\Templates\sig_devil.jpeg") 'Reading in the CEO's Signature as a jpeg
                     sigCEO.ContentId = "sigCEO" 'Giving the image an identifier for use in the HTML file
